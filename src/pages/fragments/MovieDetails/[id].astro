@@ -9,7 +9,10 @@ const movie = {
     poster_path: data.poster_path
         ? 'https://image.tmdb.org/t/p/w500/' + data.poster_path
         : 'https://via.placeholder.com/500x750',
-    vote_average: (data.vote_average * 10).toFixed(2) + '%',
+    cover_path: data.backdrop_path
+    ? 'https://image.tmdb.org/t/p/original/' + data.backdrop_path
+    : 'https://via.placeholder.com/500x750',
+    vote_average: Math.round((data.vote_average * 10)) / 10 + '%',
     release_date: new Date(data.release_date).toLocaleDateString('en-us', {
         year: 'numeric',
         month: 'long',
@@ -28,7 +31,10 @@ const movie = {
 ---
 
 <div class="movie-info border-b border-gray-800">
-    <div class="container mx-auto px-4 py-16 flex flex-col md:flex-row">
+    <div class="w-full opacity-40 -z-10 absolute top-0 mt-8 left-0 blur-sm transition-opacity overflow-hidden max-h-screen items-center">
+        <img class="object-fill min-w-full" src={movie.cover_path} alt={`${movie.title} Poster`}>
+      </div>
+    <div class="container mx-auto px-10 py-16 flex flex-col md:flex-row">
         <div class="flex-none">
             <img src={movie.poster_path} alt={`${movie.title} Poster`} class="movie-poster w-64 lg:w-96" id="movie-poster">
         </div>
